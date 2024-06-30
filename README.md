@@ -1,1 +1,1 @@
-# AVAX_Module1
+# Decentralized Banking System Smart Contract(Error Handling)
