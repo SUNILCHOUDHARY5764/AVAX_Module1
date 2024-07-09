@@ -1,31 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract ErrorHandling {
-    address public owner;
-    mapping (address => uint) private balances;
+contract errorHandling_vottingSystem {
+    mapping(string => bool) public hasVoted;
+    mapping(string => uint) public voteCount;
 
-    constructor() {
-        owner = msg.sender;
+    function vote(string memory candidate ,uint _age) external {
+        ageVerify(_age);
+
+        require(!hasVoted[candidate], "You have already voted");
+
+        voteCount[candidate] += 1;
+        hasVoted[candidate] = true;
+
+        assert(voteCount[candidate] > 0);
     }
 
-    function deposit(uint amount) public payable {
-        require(amount > 0 , "Deposit Amount must be greater than 0.");
-        balances[msg.sender] += amount;
-    }
-
-    function withdraw(uint amount) public payable {
-        if (amount <= 0) {
-            revert("Amount must be greater than 0.");
+    function ageVerify(uint _age) public pure {
+        if(_age < 18) {
+            revert("Not Eligible to Vote");
         }
-        
-        require(amount <= balances[msg.sender], "Entered Amount is not valid!");
-        balances[msg.sender] -= amount;
-    }
-
-    function checkBalance(address account) public view returns (uint) {
-        uint balance = balances[account];
-        assert(balance >= 0);
-        return balance;
     }
 }
