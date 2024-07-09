@@ -5,8 +5,8 @@ contract errorHandling_vottingSystem {
     mapping(string => bool) public hasVoted;
     mapping(string => uint) public voteCount;
 
-    function vote(string memory candidate ,uint _age) external {
-        ageVerify(_age);
+    function vote(string memory candidate ,uint age) external {
+        ageVerify(age);
 
         require(!hasVoted[candidate], "You have already voted");
 
@@ -16,8 +16,8 @@ contract errorHandling_vottingSystem {
         assert(voteCount[candidate] > 0);
     }
 
-    function ageVerify(uint _age) public pure {
-        if(_age < 18) {
+    function ageVerify(uint age) public pure {
+        if(age < 18) {
             revert("Not Eligible to Vote");
         }
     }
